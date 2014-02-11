@@ -34,11 +34,13 @@ import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.hoogleclient.doc.DocDetails;
 import com.hoogleclient.results.Result;
@@ -469,12 +471,10 @@ public class HCMain extends ActionBarActivity
            on a new search it is no longer relavant.
          */
 
-    if (mFM != null) {
+    if (!(mFM == null || results == null || results.isEmpty())) {
 
         if (mDocFragment != null && mDocFragment.isAdded()) {
 
-            //TODO: is it really necessary to find the fragment and store it?
-            // maybe it should also be removed , or cleared ?
             mDocFragment = (DocDetails) mFM.findFragmentByTag(DOC_FRAGMENT_TAG);
             mFM.popBackStack();
             mFM.executePendingTransactions();
@@ -502,6 +502,14 @@ public class HCMain extends ActionBarActivity
 
             mFM.executePendingTransactions();
         }
+    } else {
+        final int duration = Toast.LENGTH_LONG;
+        final int text     = R.string.no_results;
+
+        final Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+
+        toast.setGravity(Gravity.CENTER,0,0);
+        toast.show();
     }
 
     }

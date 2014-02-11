@@ -32,5 +32,6 @@
     <string name="app_name">Hoogle Client</string>
     <string name="action_settings">Settings</string>
     <string name="search_hint">Search on Hoogle</string>
+    <string name="no_results">The search returned no results.</string>
 
 </resources>
