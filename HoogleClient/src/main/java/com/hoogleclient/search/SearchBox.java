@@ -30,6 +30,8 @@ package com.hoogleclient.search;
 import android.app.Activity;
 import android.os.Bundle;
 import android.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +45,24 @@ import com.hoogleclient.hoogle.HoogleHandler;
 import com.hoogleclient.results.Result;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchTask{
 
+    private static final Map<Character,Character> mAcMap;
+
+    static {
+        mAcMap = new HashMap<Character, Character>();
+        mAcMap.put('(',')');
+        mAcMap.put('[',']');
+    }
+
+
     private OnHoogleSearchListener mListener;
 
-    private EditText mSearchBox;
+    private EditText    mSearchBox;
+    private TextWatcher mTextWatcher;
 
     public SearchBox() {
     }
@@ -71,6 +85,7 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
         if (mSearchBox == null && view != null) {
             mSearchBox = (EditText) view.findViewById(R.id.search_box);
         }
+
 
         if (mSearchBox != null) {
 
@@ -95,6 +110,39 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                     return handled;
                 }
             });
+
+            if (mTextWatcher == null) {
+                mTextWatcher = new TextWatcher() {
+                    @Override
+                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                    }
+
+                    @Override
+                    public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                        if (start < s.length() &&  mAcMap.containsKey(s.charAt(start))) {
+
+                            final int sStart = mSearchBox.getSelectionStart();
+
+                            final Editable currentText = mSearchBox.getText();
+
+                            if (currentText != null) {
+                                currentText.insert(sStart, mAcMap.get(s.charAt(start)).toString());
+                            }
+
+
+                            mSearchBox.setSelection(start + count);
+                        }
+
+                    }
+
+                    @Override
+                    public void afterTextChanged(Editable s) {
+                    }
+                };
+            }
+
+            mSearchBox.addTextChangedListener(mTextWatcher);
 
         }
 
