@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/actionbar_background_margin"></item>
+    <item android:drawable="@drawable/actionbar_background"
+          android:bottom="2dp"></item>
+    <item android:drawable="@drawable/search_box_vertical_background"
+          android:bottom="4dp"></item>
+</layer-list>

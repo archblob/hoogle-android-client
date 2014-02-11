@@ -1,0 +1,11 @@
+*.iws
+*.apk
+*.ap_
+*.dex
+.gradle
+/bin/
+/gen/
+/local.properties
+/.idea/workspace.xml
+/HoogleClient/build
+.DS_Store

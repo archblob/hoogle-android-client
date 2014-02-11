@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="Preferences">
+
+    <EditTextPreference
+        android:key="results_number"
+        android:title="Results Number"
+        android:summary="Number of requested results."
+        android:inputType="numberDecimal|numberSigned"
+        android:maxLength="2"
+        android:defaultValue="20">
+    </EditTextPreference>
+
+</PreferenceScreen>
