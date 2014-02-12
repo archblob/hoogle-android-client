@@ -27,45 +27,14 @@
     ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<LinearLayout xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:animateLayoutChanges="true"
-    xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <LinearLayout
-        android:id="@+id/search_container"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/search_box_vertical"
-        android:layout_marginBottom="2dp">
-    </LinearLayout>
-
-    <FrameLayout
-        android:id="@+id/settings_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/results_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:paddingTop="4dp"
-        android:paddingRight="4dp">
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/doc_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="4dp"
-        android:paddingTop="4dp"
-        android:paddingRight="4dp">
-    </FrameLayout>
-
-</LinearLayout>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/actionbar_background_margin"></item>
+    <item android:drawable="@drawable/actionbar_background"
+          android:bottom="2dp"
+          android:right="1dp"
+          android:left="1dp"></item>
+    <item android:drawable="@drawable/search_box_vertical_background"
+          android:bottom="4dp"
+          android:right="2dp"
+          android:left="2dp"></item>
+</layer-list>
