@@ -27,16 +27,13 @@
     ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:title="Preferences">
-
-    <ListPreference
-        android:key="results_number"
-        android:entries="@array/number_of_results"
-        android:entryValues="@array/number_of_results"
-        android:defaultValue="20"
-        android:title="@string/results_number_title"
-        android:summary="@string/results_number_summary">
-    </ListPreference>
-
-</PreferenceScreen>
+<resources>
+    <string-array name="number_of_results">
+        <item name="20">20</item>
+        <item name="30">30</item>
+        <item name="40">40</item>
+        <item name="50">50</item>
+        <item name="75">75</item>
+        <item name="100">100</item>
+    </string-array>
+</resources>
