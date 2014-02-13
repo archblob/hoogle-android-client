@@ -1,10 +1,24 @@
-hoogle-android-client
+![alt text](https://raw.github.com/archblob/hoogle-android-client/master/HoogleClient/src/main/res/drawable-mdpi/ic_launcher.png "Hoogle Client")hoogle-android-client
 =====================
 
 Hoogle client for android
 
+Screenshots
+-----------
+
+You can find more screenshots in the screenshots folder.
+
+###Landscape
+
+![alt text](https://raw.github.com/archblob/hoogle-android-client/master/screenshots/documentation_landscape.png "Documentation Landscape")
+
+###Portrait
+
+![alt text](https://raw.github.com/archblob/hoogle-android-client/master/screenshots/results_portrait.png "Results Portrait")
+
+
 License (BSD New)
-=============
+-----------------
 
 Copyright (c) 2014, Csernik Flaviu Andrei
 All rights reserved.
