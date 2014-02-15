@@ -28,6 +28,7 @@
 package com.hoogleclient.hoogle;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.hoogleclient.results.Result;
 import com.hoogleclient.search.SearchBox;
@@ -48,6 +49,8 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 
 public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> {
+
+    private static final String IMPLEMENTED_VERSION = "4.2.26";
 
     private static final String HGURL   = "http://www.haskell.org/hoogle/";
     private static final String HGMODE  = "?mode=";
@@ -126,15 +129,18 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
         ArrayList<Result> data = new ArrayList<Result>();
 
+        String currentHoogleVersion = "";
+
         if (response != null) {
             try {
 
-                JSONObject jsonObj = new JSONObject(response);
+                final JSONObject jsonObj = new JSONObject(response);
 
-                JSONArray results = jsonObj.getJSONArray(RESULTS);
+                final JSONArray results = jsonObj.getJSONArray(RESULTS);
+                currentHoogleVersion    = jsonObj.getString(VERSION);
 
                 for(int i = 0; i < results.length(); i++) {
-                    JSONObject r = results.getJSONObject(i);
+                    final JSONObject r = results.getJSONObject(i);
 
                     Result result = new Result(r.getString(LOCATION),
                                                r.getString(SELF),
@@ -146,7 +152,13 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
 
             } catch (JSONException e) {
-                //TODO: handle me
+
+                if (currentHoogleVersion.isEmpty()) {
+                    currentHoogleVersion = IMPLEMENTED_VERSION;
+                }
+
+                Log.e("HOOGLE_API_VERSION","Implemented Version: " + IMPLEMENTED_VERSION + "\n" +
+                                           "Current Version: " + currentHoogleVersion, e);
                 e.printStackTrace();
             }
         }
