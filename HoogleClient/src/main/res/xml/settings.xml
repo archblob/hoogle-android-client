@@ -34,7 +34,7 @@
         android:key="results_number"
         android:entries="@array/number_of_results"
         android:entryValues="@array/number_of_results"
-        android:defaultValue="20"
+        android:defaultValue="@integer/defResultCount"
         android:title="@string/results_number_title"
         android:summary="@string/results_number_summary">
     </ListPreference>

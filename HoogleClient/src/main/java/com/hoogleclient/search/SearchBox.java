@@ -32,6 +32,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +51,8 @@ import java.util.Map;
 
 public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchTask{
 
+    private static final String RESULT_COUNT = "resultCount";
+
     private static final Map<Character,Character> mAcMap;
 
     static {
@@ -64,11 +67,21 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
     private EditText    mSearchBox;
     private TextWatcher mTextWatcher;
 
+    private int mResultCount;
+
     public SearchBox() {
     }
 
-    public static SearchBox newInstance() {
-        return new SearchBox();
+    public static SearchBox newInstance(int resultCount) {
+        SearchBox fragment = new SearchBox();
+
+        Bundle args = new Bundle();
+
+        args.putInt(RESULT_COUNT, resultCount);
+
+        fragment.setArguments(args);
+
+        return fragment;
     }
 
     @Override
@@ -86,6 +99,12 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
             mSearchBox = (EditText) view.findViewById(R.id.search_box);
         }
 
+        final Bundle args = getArguments();
+
+        if (args != null) {
+            mResultCount = args.getInt(RESULT_COUNT);
+        }
+
 
         if (mSearchBox != null) {
 
@@ -99,9 +118,14 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                     /* TODO: the soft keyboard won't go away if action is no DONE */
                     /* also if imeActionLabel is set, actionId will always be zero */
 
+                    /* TODO: when Start value settings are implemented, check to see if the
+                       query string is the same and then for the required number of results.
+                       Don't request results again, just those offset by the start value.
+                     */
                     if (actionId == EditorInfo.IME_ACTION_DONE) {
 
-                        HoogleHandler hoogleHandler = new HoogleHandler(that);
+                        Log.e("resultCount", String.valueOf(mResultCount));
+                        HoogleHandler hoogleHandler = new HoogleHandler(that, mResultCount);
                         hoogleHandler.execute(String.valueOf(mSearchBox.getText()));
 
                         handled = true;
@@ -170,6 +194,10 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
     @Override
     public void onHoogleSearchTaskResult(ArrayList<Result> results) {
         mListener.onHoogleSearchResult(results);
+    }
+
+    public void setResultCount(Integer resultCount) {
+        this.mResultCount = resultCount;
     }
 
     public interface OnHoogleSearchListener {

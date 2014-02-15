@@ -30,11 +30,14 @@ package com.hoogleclient;
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -53,7 +56,10 @@ import java.util.ArrayList;
 
 public class HCMain extends ActionBarActivity
     implements Results.OnResultsFragmentInteractionListener,
-               SearchBox.OnHoogleSearchListener {
+               SearchBox.OnHoogleSearchListener,
+               Settings.OnPreferenceFragmentChangeListener {
+
+    private static final String RESULT_COUNT_PREFERENCE = "results_number";
 
     private static final String SEARCH_FRAGMENT_TAG  = "search_fragment";
     private static final String RESULTS_FRAGMENT_TAG = "results_fragment";
@@ -63,6 +69,7 @@ public class HCMain extends ActionBarActivity
     private Results    mResultsFragment;
     private DocDetails mDocFragment;
     private Settings   mSettingsFragment;
+    private SearchBox  mSearchFragment;
 
     private LinearLayout mSearchLinearLayout;
     private FrameLayout  mResultsFrameLayout;
@@ -74,6 +81,7 @@ public class HCMain extends ActionBarActivity
     private FragmentManager mFM;
 
     private ActionBar mActionBar;
+    private SharedPreferences mSharedPreference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +91,11 @@ public class HCMain extends ActionBarActivity
 
         if (mActionBar == null) {
             mActionBar = getSupportActionBar();
+        }
+
+
+        if (mSharedPreference == null) {
+            mSharedPreference = PreferenceManager.getDefaultSharedPreferences(this);
         }
 
         mSearchLinearLayout          = (LinearLayout) findViewById(R.id.search_container);
@@ -117,9 +130,9 @@ public class HCMain extends ActionBarActivity
     private void addFragmentsToLayout() {
         mFM = getFragmentManager();
 
-        SearchBox mSearchFragment = (SearchBox) mFM.findFragmentByTag(SEARCH_FRAGMENT_TAG);
-        mResultsFragment          = (Results) mFM.findFragmentByTag(RESULTS_FRAGMENT_TAG);
-        mDocFragment              = (DocDetails) mFM.findFragmentByTag(DOC_FRAGMENT_TAG);
+        mSearchFragment  = (SearchBox) mFM.findFragmentByTag(SEARCH_FRAGMENT_TAG);
+        mResultsFragment = (Results) mFM.findFragmentByTag(RESULTS_FRAGMENT_TAG);
+        mDocFragment     = (DocDetails) mFM.findFragmentByTag(DOC_FRAGMENT_TAG);
 
         if (mSearchFragment != null) {
 
@@ -164,7 +177,11 @@ public class HCMain extends ActionBarActivity
             }
 
         } else {
-            mSearchFragment = SearchBox.newInstance();
+            //TODO: make custom preference class to avoid this nonsense
+            mSearchFragment = SearchBox.newInstance(
+                    Integer.parseInt(mSharedPreference.getString(RESULT_COUNT_PREFERENCE,
+                            String.valueOf(R.integer.defResultCount))
+                    ));
 
             mFM.beginTransaction()
                     .add(R.id.search_container, mSearchFragment, SEARCH_FRAGMENT_TAG)
@@ -519,5 +536,24 @@ public class HCMain extends ActionBarActivity
         }
     }
 
+    }
+
+    @Override
+    public void onPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+
+        mSharedPreference = sharedPreferences;
+        Log.e("key", key);
+
+        if(key.equals(RESULT_COUNT_PREFERENCE)) {
+            final int resultCount = Integer.parseInt(sharedPreferences.getString(
+                    RESULT_COUNT_PREFERENCE,
+                    String.valueOf(R.integer.defResultCount)
+            ));
+
+            Log.e("newResultCount", String.valueOf(resultCount));
+            if (mSearchFragment != null) {
+                mSearchFragment.setResultCount(resultCount);
+            }
+        }
     }
 }

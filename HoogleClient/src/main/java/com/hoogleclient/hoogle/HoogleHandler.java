@@ -56,7 +56,6 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
     private static final String HGCOUNT = "&count=";
 
     private static final String  DMODE  = "json";
-    private static final Integer DCOUNT = 20;
     private static final Integer DSTART = 1;
 
     private static final String VERSION  = "version";
@@ -64,6 +63,8 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
     private static final String LOCATION = "location";
     private static final String SELF     = "self";
     private static final String DOCS     = "docs";
+
+    private final Integer resultCount;
 
     private SearchBox mContext;
 
@@ -74,10 +75,11 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
     private OnHoogleSearchTask mOnHoogleSearch;
 
-    public HoogleHandler (SearchBox context) {
+    public HoogleHandler (SearchBox context, Integer resultCount) {
 
-        this.mContext = context;
-        mHoogleClient = new DefaultHttpClient();
+        this.mContext    = context;
+        this.resultCount = resultCount;
+        mHoogleClient    = new DefaultHttpClient();
 
         try {
             mOnHoogleSearch = (OnHoogleSearchTask) this.mContext;
@@ -99,7 +101,7 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
                 final String request = HGURL + HGMODE + DMODE + HGQUERY +
                                        encodedQuery + HGSTART + DSTART.toString() +
-                                       HGCOUNT + DCOUNT.toString();
+                                       HGCOUNT + resultCount.toString();
 
                 mHoogleGet = new HttpGet(request);
                 mHoogleResponse = mHoogleClient.execute(mHoogleGet);
