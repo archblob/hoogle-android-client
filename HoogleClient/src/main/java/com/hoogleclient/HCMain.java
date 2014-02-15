@@ -29,6 +29,7 @@ package com.hoogleclient;
 
 import android.animation.LayoutTransition;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
@@ -503,13 +504,19 @@ public class HCMain extends ActionBarActivity
             mFM.executePendingTransactions();
         }
     } else {
-        final int duration = Toast.LENGTH_LONG;
-        final int text     = R.string.no_results;
 
-        final Toast toast = Toast.makeText(getApplicationContext(), text, duration);
+        final Context context = getApplicationContext();
 
-        toast.setGravity(Gravity.CENTER,0,0);
-        toast.show();
+        if (context != null) {
+
+            final int duration = Toast.LENGTH_LONG;
+            final int text     = R.string.no_results;
+
+            final Toast toast = Toast.makeText(context, text, duration);
+
+            toast.setGravity(Gravity.CENTER,0,0);
+            toast.show();
+        }
     }
 
     }
