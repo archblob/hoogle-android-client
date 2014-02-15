@@ -82,7 +82,7 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
         mHoogleClient    = new DefaultHttpClient();
 
         try {
-            mOnHoogleSearch = (OnHoogleSearchTask) this.mContext;
+            mOnHoogleSearch = this.mContext;
         } catch (ClassCastException e) {
             throw new ClassCastException(context.toString()
                     + " must implement OnHoogleSearchTask");
