@@ -72,9 +72,6 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
     private SearchBox mContext;
 
     private HttpClient   mHoogleClient;
-    private HttpGet      mHoogleGet;
-    private HttpResponse mHoogleResponse;
-    private HttpEntity   mHoogleEntity;
 
     private OnHoogleSearchTask mOnHoogleSearch;
 
@@ -106,9 +103,9 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
                                        encodedQuery + HGSTART + DSTART.toString() +
                                        HGCOUNT + resultCount.toString();
 
-                mHoogleGet = new HttpGet(request);
-                mHoogleResponse = mHoogleClient.execute(mHoogleGet);
-                mHoogleEntity = mHoogleResponse.getEntity();
+                final HttpGet mHoogleGet           = new HttpGet(request);
+                final HttpResponse mHoogleResponse = mHoogleClient.execute(mHoogleGet);
+                final HttpEntity mHoogleEntity     = mHoogleResponse.getEntity();
 
                 response = EntityUtils.toString(mHoogleEntity);
 
