@@ -124,7 +124,6 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                      */
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                        Log.e("resultCount", String.valueOf(mResultCount));
                         HoogleHandler hoogleHandler = new HoogleHandler(that, mResultCount);
                         hoogleHandler.execute(String.valueOf(mSearchBox.getText()));
 

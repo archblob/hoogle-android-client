@@ -542,7 +542,6 @@ public class HCMain extends ActionBarActivity
     public void onPreferenceChanged(SharedPreferences sharedPreferences, String key) {
 
         mSharedPreference = sharedPreferences;
-        Log.e("key", key);
 
         if(key.equals(RESULT_COUNT_PREFERENCE)) {
             final int resultCount = Integer.parseInt(sharedPreferences.getString(
@@ -550,7 +549,6 @@ public class HCMain extends ActionBarActivity
                     String.valueOf(R.integer.defResultCount)
             ));
 
-            Log.e("newResultCount", String.valueOf(resultCount));
             if (mSearchFragment != null) {
                 mSearchFragment.setResultCount(resultCount);
             }
