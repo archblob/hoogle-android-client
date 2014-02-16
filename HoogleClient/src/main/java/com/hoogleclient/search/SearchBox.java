@@ -28,6 +28,7 @@
 package com.hoogleclient.search;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
@@ -38,6 +39,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -106,6 +108,7 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
         }
 
 
+
         if (mSearchBox != null) {
 
             final SearchBox that = this;
@@ -115,18 +118,25 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                     boolean handled = false;
 
-                    /* TODO: the soft keyboard won't go away if action is no DONE */
-                    /* also if imeActionLabel is set, actionId will always be zero */
-
                     /* TODO: when Start value settings are implemented, check to see if the
                        query string is the same and then for the required number of results.
                        Don't request results again, just those offset by the start value.
                      */
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
                         Log.e("resultCount", String.valueOf(mResultCount));
                         HoogleHandler hoogleHandler = new HoogleHandler(that, mResultCount);
                         hoogleHandler.execute(String.valueOf(mSearchBox.getText()));
+
+                        final Activity activity = that.getActivity();
+                        final Context context   = activity.getApplicationContext();
+
+                        final InputMethodManager inputManager =
+                            (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+
+                        inputManager.hideSoftInputFromWindow(activity.getCurrentFocus()
+                                                                     .getWindowToken(),
+                                                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
 
                         handled = true;
                     }
