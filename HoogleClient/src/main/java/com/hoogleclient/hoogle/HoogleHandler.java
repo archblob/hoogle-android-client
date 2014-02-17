@@ -77,7 +77,7 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
     private SearchBox mContext;
 
-    private HttpClient   mHoogleClient;
+    private HttpClient mHoogleClient;
 
     private OnHoogleSearchTask mOnHoogleSearch;
 
@@ -111,15 +111,15 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
                                        encodedQuery + HGSTART + DSTART.toString() +
                                        HGCOUNT + resultCount.toString();
 
-                final HttpGet mHoogleGet           = new HttpGet(request);
-                final HttpResponse mHoogleResponse = mHoogleClient.execute(mHoogleGet);
-                final StatusLine hoogleStatus      = mHoogleResponse.getStatusLine();
+                final HttpGet hoogleGet           = new HttpGet(request);
+                final HttpResponse hoogleResponse = mHoogleClient.execute(hoogleGet);
+                final StatusLine hoogleStatus     = hoogleResponse.getStatusLine();
 
                 if (hoogleStatus.getStatusCode() == HttpStatus.SC_OK) {
 
-                    final HttpEntity mHoogleEntity = mHoogleResponse.getEntity();
+                    final HttpEntity hoogleEntity = hoogleResponse.getEntity();
 
-                    response = EntityUtils.toString(mHoogleEntity);
+                    response = EntityUtils.toString(hoogleEntity);
                 } else {
                     Toast.makeText(mContext.getActivity(), "Http Error!", Toast.LENGTH_LONG).show();
                 }
