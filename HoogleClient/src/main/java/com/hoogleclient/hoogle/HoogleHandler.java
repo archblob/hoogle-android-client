@@ -27,18 +27,24 @@
 
 package com.hoogleclient.hoogle;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.hoogleclient.results.Result;
 import com.hoogleclient.search.SearchBox;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.jetbrains.annotations.Nullable;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -90,6 +96,8 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
     }
 
+    // TODO: display better user messages and maybe don't use a toast
+    @Nullable
     private String hoogleGet(String query) {
 
         String response = null;
@@ -105,20 +113,35 @@ public class HoogleHandler extends AsyncTask<String, String, ArrayList<Result>> 
 
                 final HttpGet mHoogleGet           = new HttpGet(request);
                 final HttpResponse mHoogleResponse = mHoogleClient.execute(mHoogleGet);
-                final HttpEntity mHoogleEntity     = mHoogleResponse.getEntity();
+                final StatusLine hoogleStatus      = mHoogleResponse.getStatusLine();
 
-                response = EntityUtils.toString(mHoogleEntity);
+                if (hoogleStatus.getStatusCode() == HttpStatus.SC_OK) {
+
+                    final HttpEntity mHoogleEntity = mHoogleResponse.getEntity();
+
+                    response = EntityUtils.toString(mHoogleEntity);
+                } else {
+                    Toast.makeText(mContext.getActivity(), "Http Error!", Toast.LENGTH_LONG).show();
+                }
 
             } catch (UnsupportedEncodingException e) {
-                e.printStackTrace();
-            } catch (IOException e) {
-                //TODO: handle me
-                e.printStackTrace();
+                Log.e("HoogleHandler", "Unsupported encoding UTF-8", e);
+            } catch (ClientProtocolException e) {
+                Log.e("HoogleHandler", "Http Error", e);
+
+                final Activity activity = mContext.getActivity();
+
+                Toast.makeText(activity, "Http Error!", Toast.LENGTH_LONG).show();
+            } catch(IOException e) {
+                Log.e("HoogleHandler", "Connection error", e);
+
+                final Activity activity = mContext.getActivity();
+
+                Toast.makeText(activity, "Connection error!", Toast.LENGTH_LONG).show();
             }
 
         }
 
-        //TODO: could be null, handle it!
         return response;
     }
 
