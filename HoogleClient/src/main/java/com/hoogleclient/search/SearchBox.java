@@ -131,14 +131,24 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                         hoogleHandler.execute(String.valueOf(mSearchBox.getText()));
 
                         final Activity activity = that.getActivity();
-                        final Context context   = activity.getApplicationContext();
 
-                        final InputMethodManager inputManager =
-                            (InputMethodManager) context.getSystemService(context.INPUT_METHOD_SERVICE);
+                        if (activity != null) {
+                            final Context context   = activity.getApplicationContext();
 
-                        inputManager.hideSoftInputFromWindow(activity.getCurrentFocus()
-                                                                     .getWindowToken(),
-                                                         InputMethodManager.RESULT_UNCHANGED_SHOWN);
+                            if (context != null) {
+                                final InputMethodManager inputManager = (InputMethodManager)
+                                        context.getSystemService(Context.INPUT_METHOD_SERVICE);
+
+                                final View currentFocus = activity.getCurrentFocus();
+
+                                if (currentFocus != null && inputManager != null) {
+                                    inputManager.hideSoftInputFromWindow(
+                                            currentFocus.getWindowToken(),
+                                            InputMethodManager.RESULT_UNCHANGED_SHOWN
+                                            );
+                                }
+                            }
+                        }
 
                         handled = true;
                     }
