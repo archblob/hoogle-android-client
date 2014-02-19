@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +53,7 @@ import java.util.Map;
 public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchTask{
 
     private static final String RESULT_COUNT = "resultCount";
+    private static final String START_COUNT  = "startCount";
 
     private static final Map<Character,Character> mAcMap;
 
@@ -70,16 +70,18 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
     private TextWatcher mTextWatcher;
 
     private int mResultCount;
+    private int mStartCount;
 
     public SearchBox() {
     }
 
-    public static SearchBox newInstance(int resultCount) {
+    public static SearchBox newInstance(int resultCount, int startCount) {
         SearchBox fragment = new SearchBox();
 
         Bundle args = new Bundle();
 
         args.putInt(RESULT_COUNT, resultCount);
+        args.putInt(START_COUNT, startCount);
 
         fragment.setArguments(args);
 
@@ -105,6 +107,7 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
 
         if (args != null) {
             mResultCount = args.getInt(RESULT_COUNT);
+            mStartCount  = args.getInt(START_COUNT);
         }
 
 
@@ -124,7 +127,7 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                      */
                     if (actionId == EditorInfo.IME_ACTION_SEARCH) {
 
-                        HoogleHandler hoogleHandler = new HoogleHandler(that, mResultCount);
+                        HoogleHandler hoogleHandler = new HoogleHandler(that, mResultCount, mStartCount);
                         hoogleHandler.execute(String.valueOf(mSearchBox.getText()));
 
                         final Activity activity = that.getActivity();
@@ -207,6 +210,10 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
 
     public void setResultCount(Integer resultCount) {
         this.mResultCount = resultCount;
+    }
+
+    public void setStartCount(int startCount) {
+        this.mStartCount = startCount;
     }
 
     public interface OnHoogleSearchListener {

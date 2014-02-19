@@ -37,7 +37,6 @@ import android.support.v7.app.ActionBar;
 import android.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,6 +59,7 @@ public class HCMain extends ActionBarActivity
                Settings.OnPreferenceFragmentChangeListener {
 
     private static final String RESULT_COUNT_PREFERENCE = "results_number";
+    private static final String RESULT_START_PREFERENCE = "results_start";
 
     private static final String SEARCH_FRAGMENT_TAG  = "search_fragment";
     private static final String RESULTS_FRAGMENT_TAG = "results_fragment";
@@ -180,8 +180,10 @@ public class HCMain extends ActionBarActivity
             //TODO: make custom preference class to avoid this nonsense
             mSearchFragment = SearchBox.newInstance(
                     Integer.parseInt(mSharedPreference.getString(RESULT_COUNT_PREFERENCE,
-                            String.valueOf(R.integer.defResultCount))
-                    ));
+                            String.valueOf(R.integer.defResultCount))),
+                    Integer.parseInt(mSharedPreference.getString(RESULT_START_PREFERENCE,
+                            String.valueOf(R.integer.defStartCount)))
+                    );
 
             mFM.beginTransaction()
                     .add(R.id.search_container, mSearchFragment, SEARCH_FRAGMENT_TAG)
@@ -552,6 +554,19 @@ public class HCMain extends ActionBarActivity
             if (mSearchFragment != null) {
                 mSearchFragment.setResultCount(resultCount);
             }
+        }
+
+        /* TODO: determine if nr is negatvive */
+
+        if (key.equals(RESULT_START_PREFERENCE)) {
+            final int startCount = Integer.parseInt(sharedPreferences.getString(
+                    RESULT_START_PREFERENCE,
+                    String.valueOf(R.integer.defStartCount)
+            ));
+
+            if (mSearchFragment != null) {
+               mSearchFragment.setStartCount(startCount);
+        }
         }
     }
 }

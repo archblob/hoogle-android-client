@@ -35,5 +35,7 @@
     <string name="no_results">The search returned no results.</string>
     <string name="results_number_summary">Number of requested results.</string>
     <string name="results_number_title">Results Number</string>
+    <string name="results_start_summary">Return results starting from n.</string>
+    <string name="results_start_title">Results Start</string>
 
 </resources>

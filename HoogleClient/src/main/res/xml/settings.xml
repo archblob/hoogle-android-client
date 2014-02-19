@@ -39,4 +39,11 @@
         android:summary="@string/results_number_summary">
     </ListPreference>
 
+    <EditTextPreference
+        android:key="results_start"
+        android:defaultValue="@integer/defStartCount"
+        android:title="@string/results_start_title"
+        android:summary="@string/results_start_summary">
+    </EditTextPreference>
+
 </PreferenceScreen>
