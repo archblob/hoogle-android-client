@@ -33,8 +33,7 @@
     tools:context="com.hoogleclient.HCMain">
 
     <item android:id="@+id/action_settings"
-        android:title=""
-        android:icon="@drawable/ic_action_settings"
+        android:title="@string/action_settings"
         android:orderInCategory="100"
-        app:showAsAction="ifRoom" />
+        app:showAsAction="never" />
 </menu>
