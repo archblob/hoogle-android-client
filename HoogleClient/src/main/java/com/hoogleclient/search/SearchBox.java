@@ -33,6 +33,7 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -66,8 +67,9 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
 
     private OnHoogleSearchListener mListener;
 
-    private EditText    mSearchBox;
-    private TextWatcher mTextWatcher;
+    private EditText     mSearchBox;
+    private CharSequence mOldS;
+    private TextWatcher  mTextWatcher;
 
     private int mResultCount;
     private int mStartCount;
@@ -166,7 +168,12 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-                        if (start < s.length() &&  mAcMap.containsKey(s.charAt(start))) {
+                        final Boolean ctnVldTkn =
+                                start < s.length()
+                             && mAcMap.containsKey(s.charAt(start))
+                             && count == 1;
+
+                        if (ctnVldTkn) {
 
                             final int sStart = mSearchBox.getSelectionStart();
 
@@ -175,7 +182,6 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
                             if (currentText != null) {
                                 currentText.insert(sStart, mAcMap.get(s.charAt(start)).toString());
                             }
-
 
                             mSearchBox.setSelection(start + count);
                         }
