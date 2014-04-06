@@ -32,5 +32,11 @@
     <color name="hDarkBlue">#293845</color>
     <color name="hLightBlue">#4E6279</color>
     <color name="grey">#AFAFAF</color>
-    <color name="lightgrey">#CCCCCC</color>
+    <color name="lightgrey">#32545C</color>
+    <color name="lightBlue">#7CAAD1</color>
+
+    <color name="shade1">#1E2933</color>
+    <color name="shade2">#314252</color>
+    <color name="shade3">#567691</color>
+    <color name="shade4">#7CAAD1</color>
 </resources>
