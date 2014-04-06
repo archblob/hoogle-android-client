@@ -28,7 +28,18 @@
 -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/actionbar_background_margin"></item>
-    <item android:drawable="@drawable/actionbar_background"
-          android:top="5dp"></item>
+    <item>
+        <shape
+            android:shape="rectangle"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@color/hLightBlue" />
+        </shape>
+    </item>
+    <item android:top="5dp">
+        <shape
+            android:shape="rectangle"
+            xmlns:android="http://schemas.android.com/apk/res/android">
+            <solid android:color="@color/hDarkBlue" />
+        </shape>
+    </item>
 </layer-list>

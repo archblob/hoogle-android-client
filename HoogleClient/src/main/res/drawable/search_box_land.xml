@@ -28,12 +28,12 @@
 -->
 
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/actionbar_background_margin"></item>
-    <item android:drawable="@drawable/actionbar_background"
+    <item android:drawable="@color/hLightBlue"></item>
+    <item android:drawable="@color/hDarkBlue"
           android:bottom="2dp"
           android:right="1dp"
           android:left="1dp"></item>
-    <item android:drawable="@drawable/search_box_vertical_background"
+    <item android:drawable="@color/white"
           android:bottom="4dp"
           android:right="2dp"
           android:left="2dp"></item>
