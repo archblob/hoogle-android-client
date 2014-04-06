@@ -33,7 +33,6 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,7 +67,6 @@ public class SearchBox extends Fragment implements HoogleHandler.OnHoogleSearchT
     private OnHoogleSearchListener mListener;
 
     private EditText     mSearchBox;
-    private CharSequence mOldS;
     private TextWatcher  mTextWatcher;
 
     private int mResultCount;
