@@ -38,6 +38,8 @@ import android.widget.ListView;
 
 import com.hoogleclient.R;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 public class Results extends ListFragment {
@@ -73,7 +75,7 @@ public class Results extends ListFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.result_list, container, false);
 
         if (savedInstanceState != null) {
