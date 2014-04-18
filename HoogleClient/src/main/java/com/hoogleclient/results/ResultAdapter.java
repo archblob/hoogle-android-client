@@ -58,10 +58,12 @@ public class ResultAdapter extends ArrayAdapter<Result> {
 
         if (view != null) {
 
+            final PrettyType pretty = new PrettyType();
+
             TextView self = (TextView) view.findViewById(R.id.self);
             TextView docs = (TextView) view.findViewById(R.id.docs);
 
-            self.setText(itemArrayList.get(position).getSelf());
+            self.setText(pretty.applyAll(itemArrayList.get(position).getSelf()));
             docs.setText(itemArrayList.get(position).getDocs());
         }
 
